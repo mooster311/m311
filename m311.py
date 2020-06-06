@@ -14,10 +14,10 @@ from tasks import check_statuses, check_ping, compile_hourly_data, compile_daily
 
 scheduler = BackgroundScheduler()
 
-scheduler.add_job(check_statuses, 'interval', minutes=1, id='statuses', misfire_grace_time=45)
-scheduler.add_job(check_ping, 'interval', minutes=1, id='ping', misfire_grace_time=45)
-scheduler.add_job(compile_hourly_data, 'interval', minutes=1, id='hourly', misfire_grace_time=360)
-scheduler.add_job(compile_daily_data, 'interval', minutes=1, id='daily', misfire_grace_time=360)
+scheduler.add_job(check_statuses, 'interval', minutes=5, id='statuses', misfire_grace_time=45)
+scheduler.add_job(check_ping, 'interval', minutes=5, id='ping', misfire_grace_time=45)
+scheduler.add_job(compile_hourly_data, 'interval', minutes=60, id='hourly', misfire_grace_time=360)
+scheduler.add_job(compile_daily_data, 'interval', minutes=3600, id='daily', misfire_grace_time=360)
 scheduler.start()
 
 
@@ -100,4 +100,6 @@ def metrics(id):
 
 atexit.register(lambda: scheduler.shutdown())
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
 
